@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -129,7 +128,7 @@ class _AdminCrudState extends State<AdminCrud> {
       _returnDate = _manualTakeDate
           ? _takeDate.add(const Duration(days: 15))
           : DateTime.now().add(const Duration(days: 15));
-      _bookStatus = 'borrowed';
+      _bookStatus = 'Borrowed';
       _extendCount = 0;
     });
   }
@@ -148,7 +147,7 @@ class _AdminCrudState extends State<AdminCrud> {
     await FirebaseFirestore.instance
         .collection('entries')
         .doc(id)
-        .update({'BookStatus': 'returned'});
+        .update({'BookStatus': 'Returned'});
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(

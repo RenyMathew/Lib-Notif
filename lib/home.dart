@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<DateTime> _dueDates = [];
+  String _selectedFilter = 'All';
 
   int indexNum = 1;
 
@@ -89,11 +90,11 @@ class _HomePageState extends State<HomePage> {
             showSelectedLabels: true,
             selectedItemColor: Colors.indigo,
             currentIndex: indexNum,
-            onTap: (int index) async{
+            onTap: (int index) async {
               if (index != indexNum) {
                 if (index == 0) {
-                      final sharedPref =await SharedPreferences.getInstance();
-                      sharedPref.clear();
+                  final sharedPref = await SharedPreferences.getInstance();
+                  sharedPref.clear();
                   Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) => Login()));
                 } else if (index == 2) {
@@ -207,11 +208,34 @@ class _HomePageState extends State<HomePage> {
                   width: 20,
                 ),
                 Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: DropdownButton<String>(
+                    value: _selectedFilter,
+                    items: <String>['All', 'Returned', 'Borrowed']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedFilter = newValue!;
+                      });
+                    },
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: StreamBuilder(
                     stream: FirebaseFirestore.instance
                         .collection('entries')
                         .where('RegNo', isEqualTo: widget.loggedInEmail)
+                        .where(
+                          'BookStatus',
+                          isEqualTo:
+                              _selectedFilter == 'All' ? null : _selectedFilter,
+                        )
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot?> snapshot) {
@@ -252,6 +276,8 @@ class _HomePageState extends State<HomePage> {
                                           'Author: ${entryStringMap['Author'] ?? 'Unknown'}'),
                                       Text(
                                           'Taken Date: ${_formatDate(entryStringMap['TakeDate']) ?? 'Unknown'}'),
+                                      Text(
+                                          'Status: ${entryStringMap['BookStatus'] ?? 'Unknown'}'),
                                     ],
                                   ),
                                   trailing: Text(_formatDate(
