@@ -1,16 +1,1 @@
-# libnotif
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+We propose a Library Notification System, an advanced Android application designed to automate and streamline book notification processes. The system stores user data in a centralized database and utilizes push notification technology to deliver timely reminders directly to users' personal devices. Notifications include due dates and the overdue items, ensuring that users receive consistent and timely updates
